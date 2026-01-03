@@ -3,15 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- THE WIDE OPEN SECURITY FIX -->
-    <!-- This allows connections to googleusercontent.com which acts as the redirect handler -->
+    <!-- WIDE OPEN SECURITY FOR FACEBOOK COMPATIBILITY -->
     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
-
     <title>AI Class Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center py-10 px-4">
+<body class="bg-gray-100 min-h-screen flex flex-col items-center py-10 px-4">
+
+    <!-- FACEBOOK WARNING BANNER (Hidden by default) -->
+    <div id="fb-warning" class="hidden w-full max-w-xl mb-6 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded shadow-md" role="alert">
+        <p class="font-bold">⚠️ Facebook Browser Detected</p>
+        <p>For the registration to work correctly, please tap the <span class="font-bold">•••</span> menu at the top or bottom right and select <span class="font-bold">"Open in Browser"</span> (Safari/Chrome).</p>
+    </div>
 
     <div class="max-w-xl w-full bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-200">
         <div class="bg-blue-700 p-6 text-white text-center">
@@ -108,10 +111,22 @@
     </div>
 
     <script>
-        // ------------------------------------------------------------------
-        // YOUR NEW URL IS PASTED BELOW:
-        // ------------------------------------------------------------------
+      // Wrap in IIFE to prevent variable redeclaration errors in some environments
+      (function() {
+        // ==================================================================
+        // URL CONFIGURATION
+        // ==================================================================
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2784ooAKB_OR5h2fvY7uGL0Me41tM54KoHNTdg1tbukn2oNeVCspiJ_dCjXs6_nUNnA/exec";
+
+        // ==================================================================
+        // FACEBOOK / INSTAGRAM DETECTION
+        // ==================================================================
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const isFacebook = (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
+        
+        if (isFacebook) {
+            document.getElementById('fb-warning').classList.remove('hidden');
+        }
 
         const form = document.getElementById('classForm');
         const btn = document.getElementById('submitBtn');
@@ -132,18 +147,24 @@
                 body: payload
             })
             .then(() => {
-                msg.innerText = "Success! Your data has been sent to the Raw Intake tab.";
+                msg.innerText = "Success! Your registration is complete. Check your email.";
                 msg.className = "p-4 rounded-lg text-center font-bold text-sm mt-4 bg-green-100 text-green-700 block";
                 btn.innerText = "Registered!";
             })
             .catch(error => {
                 console.error(error);
-                msg.innerText = "Error: Check your Internet connection.";
+                // If it fails on Facebook, give a specific instruction
+                if (isFacebook) {
+                    msg.innerText = "Registration blocked by Facebook Browser. Please tap ••• above and 'Open in Browser'.";
+                } else {
+                    msg.innerText = "Error: Check your Internet connection.";
+                }
                 msg.className = "p-4 rounded-lg text-center font-bold text-sm mt-4 bg-red-100 text-red-700 block";
                 btn.disabled = false;
                 btn.innerText = "Try Again";
             });
         });
+      })();
     </script>
 </body>
 </html>
