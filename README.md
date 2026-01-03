@@ -2,10 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- THE FACEBOOK FIX: This line tells the browser it is safe to talk to Google -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com https://fonts.googleapis.com https://fonts.gstatic.com; connect-src 'self' https://script.google.com;">
-    
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- THE WIDE OPEN SECURITY FIX -->
+    <!-- This allows connections to googleusercontent.com which acts as the redirect handler -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
+
     <title>AI Class Registration</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -70,7 +72,7 @@
             <!-- 5. Confidence & Background -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Confidence (1-5)</label>
+                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">How confident are you? (1-5)</label>
                     <select name="tech_comfort" class="w-full p-3 border rounded-lg bg-white">
                         <option value="1">1 - New to this</option>
                         <option value="2">2</option>
@@ -106,7 +108,9 @@
     </div>
 
     <script>
-        // YOUR CORRECT URL IS ALREADY PASTED HERE:
+        // ------------------------------------------------------------------
+        // YOUR NEW URL IS PASTED BELOW:
+        // ------------------------------------------------------------------
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx2784ooAKB_OR5h2fvY7uGL0Me41tM54KoHNTdg1tbukn2oNeVCspiJ_dCjXs6_nUNnA/exec";
 
         const form = document.getElementById('classForm');
