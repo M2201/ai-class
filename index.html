@@ -254,7 +254,7 @@
     // ─────────────────────────────────────────────
     //  CONFIGURATION
     // ─────────────────────────────────────────────
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyT0b8oY41HeOot383q5Fk27Khs9go2h4f9HdzokV53RcQ1BguLFg6mKnxP6VUwCtowXQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRvNWngmqA6jfScBMqzGyyDOzCrRDoJ_TgZDMFSkRiVxJFQqLjT-5hOSA5OR1ku7pw9w/exec";
     const SOURCE_TAG = "Web-Form-React";
 
     // Fallback config (used if GAS fetch fails)
@@ -301,6 +301,31 @@
     function TextInput({ id, label, type = "text", value, onChange, error, placeholder, required = true }) { return <div className="space-y-1.5"><Label htmlFor={id} required={required}>{label}</Label><input id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} className={inputCls(error)} /><FieldError msg={error} /></div>; }
     function SelectInput({ id, label, value, onChange, error, options, placeholder, required = true }) { return <div className="space-y-1.5"><Label htmlFor={id} required={required}>{label}</Label><select id={id} value={value} onChange={onChange} className={inputCls(error) + ' pr-10 cursor-pointer'}><option value="" disabled>{placeholder || 'Select one…'}</option>{options.map(o => { const v = typeof o === 'string' ? o : o.value; const l = typeof o === 'string' ? o : o.label; return <option key={v} value={v}>{l}</option> })}</select><FieldError msg={error} /></div>; }
     function CheckboxGroup({ id, label, options, selected, onChange, error }) { const toggle = t => { const n = selected.includes(t) ? selected.filter(x => x !== t) : [...selected, t]; onChange(n) }; return <div className="space-y-2"><Label htmlFor={id} required>{label}</Label><div className="cb-grid" id={id}>{options.map(t => <div key={t} className={`cb-item ${selected.includes(t) ? 'selected' : ''}`} onClick={() => toggle(t)}><input type="checkbox" checked={selected.includes(t)} onChange={() => toggle(t)} tabIndex={-1} /><label>{t}</label></div>)}</div><FieldError msg={error} /></div>; }
+    function CheckboxGroupWithOther({ id, label, options, selected, onChange, otherText, onOtherChange, error }) {
+      const toggle = t => { const n = selected.includes(t) ? selected.filter(x => x !== t) : [...selected, t]; onChange(n); };
+      const hasOther = selected.includes('Other');
+      return (
+        <div className="space-y-2">
+          <Label htmlFor={id} required>{label}</Label>
+          <div className="cb-grid" id={id}>
+            {options.map(t => (
+              <div key={t} className={`cb-item ${selected.includes(t) ? 'selected' : ''}`} onClick={() => toggle(t)}>
+                <input type="checkbox" checked={selected.includes(t)} onChange={() => toggle(t)} tabIndex={-1} />
+                <label>{t}</label>
+              </div>
+            ))}
+          </div>
+          {hasOther && (
+            <input
+              type="text" value={otherText} onChange={onOtherChange}
+              placeholder="Please specify…"
+              className={inputCls(false) + ' mt-2'}
+            />
+          )}
+          <FieldError msg={error} />
+        </div>
+      );
+    }
     function ErrorBanner({ message }) { return message ? <div className="animate-fade-in flex items-start gap-3 p-4 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-300 text-sm"><svg className="w-5 h-5 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg><span className="font-light leading-relaxed">{message}</span></div> : null; }
 
     // ── Success View ──
@@ -479,7 +504,7 @@
     function RegistrationForm() {
       const [config, setConfig] = useState(DEFAULT_CONFIG);
       const [configLoading, setConfigLoading] = useState(true);
-      const [form, setForm] = useState({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], primaryGoal: '', confidence: '', codingBackground: '' });
+      const [form, setForm] = useState({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], aiToolsOther: '', primaryGoal: [], primaryGoalOther: '', confidence: '', codingBackground: '' });
       const [errors, setErrors] = useState({});
       const [isSubmitting, setIsSubmitting] = useState(false);
       const [submitted, setSubmitted] = useState(false);
@@ -489,24 +514,34 @@
 
       const set = f => e => { setForm(p => ({ ...p, [f]: e.target.value })); if (errors[f]) setErrors(p => ({ ...p, [f]: '' })); if (apiError) setApiError(''); };
       const setTools = t => { setForm(p => ({ ...p, aiTools: t })); if (errors.aiTools) setErrors(p => ({ ...p, aiTools: '' })); };
+      const setGoals = t => { setForm(p => ({ ...p, primaryGoal: t })); if (errors.primaryGoal) setErrors(p => ({ ...p, primaryGoal: '' })); };
 
       const validate = () => {
         const e = {};
         if (!form.fullName.trim()) e.fullName = 'Full name is required'; if (!form.email.trim()) e.email = 'Email is required';
         else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email';
         if (!form.company.trim()) e.company = 'Company / Organization is required'; if (!form.titleIndustry.trim()) e.titleIndustry = 'Title & Industry is required';
-        if (!form.aiTools.length) e.aiTools = 'Select at least one tool'; if (!form.primaryGoal) e.primaryGoal = 'Select your primary goal';
+        if (!form.aiTools.length) e.aiTools = 'Select at least one tool';
+        if (form.aiTools.includes('Other') && !form.aiToolsOther.trim()) e.aiTools = 'Please specify which other tools';
+        if (!form.primaryGoal.length) e.primaryGoal = 'Select at least one goal';
+        if (form.primaryGoal.includes('Other') && !form.primaryGoalOther.trim()) e.primaryGoal = 'Please specify your other goal';
         if (!form.confidence) e.confidence = 'Select your confidence level'; if (!form.codingBackground) e.codingBackground = 'Select your coding background';
         return e;
       };
 
       const handleSubmit = async ev => {
         ev.preventDefault(); const errs = validate(); if (Object.keys(errs).length) { setErrors(errs); return; } setErrors({}); setApiError(''); setIsSubmitting(true);
-        const payload = { authToken: "__public__", "Full Name": form.fullName.trim(), "Email Address": form.email.trim(), "Company / Organization": form.company.trim(), "Title & Industry": form.titleIndustry.trim(), "Which AI tools have you used?": form.aiTools.join(', '), "What is your primary goal?": form.primaryGoal, "How confident do you feel learning new tools?": form.confidence, "Coding background?": form.codingBackground, Source: SOURCE_TAG, timestamp: new Date().toISOString() };
+        // Build AI tools string, appending "Other: ..." if specified
+        let toolsList = form.aiTools.filter(t => t !== 'Other');
+        if (form.aiTools.includes('Other') && form.aiToolsOther.trim()) toolsList.push('Other: ' + form.aiToolsOther.trim());
+        // Build goals string, appending "Other: ..." if specified
+        let goalsList = form.primaryGoal.filter(g => g !== 'Other');
+        if (form.primaryGoal.includes('Other') && form.primaryGoalOther.trim()) goalsList.push('Other: ' + form.primaryGoalOther.trim());
+        const payload = { authToken: "__public__", "Full Name": form.fullName.trim(), "Email Address": form.email.trim(), "Company / Organization": form.company.trim(), "Title & Industry": form.titleIndustry.trim(), "Which AI tools have you used?": toolsList.join(', '), "What is your primary goal?": goalsList.join(', '), "How confident do you feel learning new tools?": form.confidence, "Coding background?": form.codingBackground, Source: SOURCE_TAG, timestamp: new Date().toISOString() };
         try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }); setSubmitted(true); } catch (e) { setApiError('Something went wrong. Please try again.'); } finally { setIsSubmitting(false); }
       };
 
-      const handleReset = () => { setForm({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], primaryGoal: '', confidence: '', codingBackground: '' }); setErrors({}); setApiError(''); setSubmitted(false); };
+      const handleReset = () => { setForm({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], aiToolsOther: '', primaryGoal: [], primaryGoalOther: '', confidence: '', codingBackground: '' }); setErrors({}); setApiError(''); setSubmitted(false); };
 
       return (
         <div className="bg-mesh min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
@@ -539,9 +574,9 @@
                     <TextInput id="company" label="Company / Organization" value={form.company} onChange={set('company')} error={errors.company} placeholder="Acme Inc." />
                     <TextInput id="titleIndustry" label="Title & Industry" value={form.titleIndustry} onChange={set('titleIndustry')} error={errors.titleIndustry} placeholder="Teacher / Education" />
                   </div>
-                  <CheckboxGroup id="aiTools" label="Which AI tools have you used?" options={AI_TOOLS} selected={form.aiTools} onChange={setTools} error={errors.aiTools} />
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <SelectInput id="primaryGoal" label="Primary Goal" value={form.primaryGoal} onChange={set('primaryGoal')} error={errors.primaryGoal} options={PRIMARY_GOALS} placeholder="Select goal…" />
+                  <CheckboxGroupWithOther id="aiTools" label="Which AI tools have you used?" options={AI_TOOLS} selected={form.aiTools} onChange={setTools} otherText={form.aiToolsOther} onOtherChange={e => setForm(p => ({ ...p, aiToolsOther: e.target.value }))} error={errors.aiTools} />
+                  <CheckboxGroupWithOther id="primaryGoal" label="What is your primary goal?" options={PRIMARY_GOALS} selected={form.primaryGoal} onChange={setGoals} otherText={form.primaryGoalOther} onOtherChange={e => setForm(p => ({ ...p, primaryGoalOther: e.target.value }))} error={errors.primaryGoal} />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <SelectInput id="confidence" label="Confidence Level" value={form.confidence} onChange={set('confidence')} error={errors.confidence} options={CONFIDENCE_LEVELS} placeholder="1 – 5" />
                     <SelectInput id="codingBackground" label="Coding Background" value={form.codingBackground} onChange={set('codingBackground')} error={errors.codingBackground} options={CODING_BGS} placeholder="Select…" />
                   </div>
