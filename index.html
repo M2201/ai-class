@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Introductory Sign Up</title>
+  <meta name="description"
+    content="Register for the AI Introductory Class — learn to leverage AI tools for productivity, career growth, and more." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b' }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.8s ease-out forwards', 'slide-up': 'slideUp 0.6s ease-out forwards',
+            'pulse-glow': 'pulseGlow 2s ease-in-out infinite', 'success-pop': 'successPop 0.5s ease-out forwards',
+            'spin-slow': 'spin 1.2s linear infinite',
+          },
+          keyframes: {
+            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+            slideUp: { '0%': { opacity: '0', transform: 'translateY(24px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+            pulseGlow: { '0%,100%': { boxShadow: '0 0 20px rgba(99,102,241,0.15)' }, '50%': { boxShadow: '0 0 40px rgba(99,102,241,0.35)' } },
+            successPop: { '0%': { transform: 'scale(0.8)', opacity: '0' }, '50%': { transform: 'scale(1.05)' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+          }
+        }
+      }
+    }
+  </script>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .bg-mesh {
+      background: linear-gradient(135deg, #0f0a2e 0%, #1a1145 25%, #1e1b4b 50%, #312e81 75%, #1e1b4b 100%);
+      background-size: 400% 400%;
+      animation: gradientShift 12s ease infinite
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%
+      }
+
+      50% {
+        background-position: 100% 50%
+      }
+
+      100% {
+        background-position: 0% 50%
+      }
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06)
+    }
+
+    .input-glow:focus {
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3), 0 0 16px rgba(99, 102, 241, 0.15)
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      pointer-events: none
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: #6366f1;
+      top: -120px;
+      left: -100px;
+      animation: orbFloat1 8s ease-in-out infinite
+    }
+
+    .orb-2 {
+      width: 400px;
+      height: 400px;
+      background: #8b5cf6;
+      bottom: -80px;
+      right: -60px;
+      animation: orbFloat2 10s ease-in-out infinite
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: #ec4899;
+      top: 50%;
+      left: 60%;
+      animation: orbFloat3 7s ease-in-out infinite
+    }
+
+    @keyframes orbFloat1 {
+
+      0%,
+      100% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(30px, 20px)
+      }
+    }
+
+    @keyframes orbFloat2 {
+
+      0%,
+      100% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(-20px, -30px)
+      }
+    }
+
+    @keyframes orbFloat3 {
+
+      0%,
+      100% {
+        transform: translate(0, 0)
+      }
+
+      50% {
+        transform: translate(-15px, 25px)
+      }
+    }
+
+    .checkmark-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #34d399, #10b981);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.4)
+    }
+
+    select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23a5b4fc' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center
+    }
+
+    select option {
+      background: #1e1b4b;
+      color: #e0e7ff
+    }
+
+    .cb-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 8px
+    }
+
+    .cb-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: rgba(255, 255, 255, 0.03);
+      cursor: pointer;
+      transition: all 0.2s ease
+    }
+
+    .cb-item:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12)
+    }
+
+    .cb-item.selected {
+      background: rgba(99, 102, 241, 0.15);
+      border-color: rgba(99, 102, 241, 0.4)
+    }
+
+    .cb-item input[type="checkbox"] {
+      accent-color: #6366f1;
+      width: 16px;
+      height: 16px;
+      cursor: pointer
+    }
+
+    .cb-item label {
+      font-size: 13px;
+      color: #c7d2fe;
+      cursor: pointer;
+      user-select: none
+    }
+
+    .admin-input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      font-size: 14px;
+      font-family: inherit;
+      transition: all 0.2s
+    }
+
+    .admin-input:focus {
+      outline: none;
+      border-color: rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2)
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // ─────────────────────────────────────────────
+    //  CONFIGURATION
+    // ─────────────────────────────────────────────
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx8Taaexf9Yp9zdGAi_r5GFLtu1zI7nkj1uzWjz5oHRVLhWDnxlZYuIzNbKLyNCc8jRrg/exec";
+    const SOURCE_TAG = "Web-Form-React";
+
+    // Fallback config (used if GAS fetch fails)
+    const DEFAULT_CONFIG = {
+      zoomLink: "https://us06web.zoom.us/j/81225617596?pwd=14YeTZlS2z4jvvqN2ayhF6i2TdB0dZ.1",
+      classDate: "Saturday, March 7",
+      classTime: "9:00 AM MST",
+    };
+
+    // Dropdown options
+    const AI_TOOLS = ["ChatGPT", "Claude", "Gemini", "Perplexity", "Midjourney", "DALL·E", "Copilot", "Suno", "Sintra", "Other"];
+    const PRIMARY_GOALS = ["Productivity", "Exploration", "Career Growth", "Automating Tasks", "Content Creation", "Other"];
+    const CONFIDENCE_LEVELS = [
+      { value: "1", label: "1 — Not at all confident" }, { value: "2", label: "2 — Slightly confident" },
+      { value: "3", label: "3 — Somewhat confident" }, { value: "4", label: "4 — Fairly confident" },
+      { value: "5", label: "5 — Very confident" },
+    ];
+    const CODING_BGS = ["None", "No-code / Low-code", "Traditional"];
+    // ─────────────────────────────────────────────
+
+    const { useState, useEffect } = React;
+
+    // ── Utils ──
+    const isAdminMode = () => new URLSearchParams(window.location.search).has('admin');
+
+    async function fetchConfig() {
+      try {
+        const res = await fetch(SCRIPT_URL + "?action=getConfig");
+        const json = await res.json();
+        if (json.status === "success" && json.config) return json.config;
+      } catch (e) { console.warn("Config fetch failed, using defaults:", e); }
+      return DEFAULT_CONFIG;
+    }
+
+    // ── Shared Components ──
+    function Spinner() {
+      return <svg className="animate-spin-slow h-5 w-5 text-white" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>;
+    }
+
+    const inputCls = (err) => `input-glow w-full px-4 py-3 rounded-xl bg-white/[0.06] border ${err ? 'border-rose-400/60' : 'border-white/10'} text-white placeholder-white/25 text-sm font-light tracking-wide transition-all duration-300 focus:outline-none focus:border-indigo-400/50 hover:bg-white/[0.08] hover:border-white/15`;
+
+    function FieldError({ msg }) { return msg ? <p className="text-xs text-rose-400 flex items-center gap-1 mt-1 animate-fade-in"><svg className="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" /></svg>{msg}</p> : null; }
+    function Label({ htmlFor, children, required }) { return <label htmlFor={htmlFor} className="block text-sm font-medium text-indigo-200/80 tracking-wide">{children} {required && <span className="text-rose-400">*</span>}</label>; }
+    function TextInput({ id, label, type = "text", value, onChange, error, placeholder, required = true }) { return <div className="space-y-1.5"><Label htmlFor={id} required={required}>{label}</Label><input id={id} type={type} value={value} onChange={onChange} placeholder={placeholder} className={inputCls(error)} /><FieldError msg={error} /></div>; }
+    function SelectInput({ id, label, value, onChange, error, options, placeholder, required = true }) { return <div className="space-y-1.5"><Label htmlFor={id} required={required}>{label}</Label><select id={id} value={value} onChange={onChange} className={inputCls(error) + ' pr-10 cursor-pointer'}><option value="" disabled>{placeholder || 'Select one…'}</option>{options.map(o => { const v = typeof o === 'string' ? o : o.value; const l = typeof o === 'string' ? o : o.label; return <option key={v} value={v}>{l}</option> })}</select><FieldError msg={error} /></div>; }
+    function CheckboxGroup({ id, label, options, selected, onChange, error }) { const toggle = t => { const n = selected.includes(t) ? selected.filter(x => x !== t) : [...selected, t]; onChange(n) }; return <div className="space-y-2"><Label htmlFor={id} required>{label}</Label><div className="cb-grid" id={id}>{options.map(t => <div key={t} className={`cb-item ${selected.includes(t) ? 'selected' : ''}`} onClick={() => toggle(t)}><input type="checkbox" checked={selected.includes(t)} onChange={() => toggle(t)} tabIndex={-1} /><label>{t}</label></div>)}</div><FieldError msg={error} /></div>; }
+    function ErrorBanner({ message }) { return message ? <div className="animate-fade-in flex items-start gap-3 p-4 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-300 text-sm"><svg className="w-5 h-5 shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg><span className="font-light leading-relaxed">{message}</span></div> : null; }
+
+    // ── Success View ──
+    function SuccessView({ onReset, config }) {
+      return (
+        <div className="flex flex-col items-center text-center py-6 space-y-6 animate-success-pop">
+          <div className="checkmark-circle">
+            <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="3"><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
+          </div>
+          <div className="space-y-2">
+            <h2 id="success-heading" className="text-2xl font-bold text-white">Success</h2>
+            <p className="text-indigo-200/70 text-sm font-light max-w-sm mx-auto">You're registered! Here are your class details:</p>
+          </div>
+          <div className="w-full max-w-sm rounded-2xl bg-white/[0.06] border border-white/10 p-5 space-y-4 text-left">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-indigo-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>
+              </div>
+              <div><p className="text-xs text-indigo-300/60 font-medium uppercase tracking-wider">Date & Time</p><p className="text-sm text-white font-medium">{config.classDate} · {config.classTime}</p></div>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-lg bg-violet-500/20 flex items-center justify-center shrink-0">
+                <svg className="w-5 h-5 text-violet-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" /></svg>
+              </div>
+              <div className="min-w-0"><p className="text-xs text-violet-300/60 font-medium uppercase tracking-wider">Zoom Link</p><a href={config.zoomLink} target="_blank" rel="noopener noreferrer" className="text-sm text-indigo-300 hover:text-indigo-200 underline underline-offset-2 decoration-indigo-400/30 hover:decoration-indigo-300/60 transition-colors truncate block">Join Zoom Meeting →</a></div>
+            </div>
+          </div>
+          <button id="submit-another-btn" onClick={onReset} className="mt-2 px-6 py-2.5 rounded-xl text-sm font-medium bg-white/[0.08] border border-white/10 text-indigo-200 hover:text-white hover:bg-white/[0.12] hover:border-white/20 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400/30">Submit Another</button>
+        </div>
+      );
+    }
+
+    // ══════════════════════════════════════════════
+    //  ADMIN PANEL
+    // ══════════════════════════════════════════════
+    function AdminPanel() {
+      const [authed, setAuthed] = useState(false);
+      const [token, setToken] = useState('');
+      const [config, setConfig] = useState(DEFAULT_CONFIG);
+      const [draft, setDraft] = useState(DEFAULT_CONFIG);
+      const [saving, setSaving] = useState(false);
+      const [saved, setSaved] = useState(false);
+      const [loadError, setLoadError] = useState('');
+      const [saveError, setSaveError] = useState('');
+      const [loading, setLoading] = useState(false);
+
+      const loadConfig = async () => {
+        setLoading(true); setLoadError('');
+        try {
+          const cfg = await fetchConfig();
+          setConfig(cfg); setDraft(cfg);
+        } catch { setLoadError('Could not load config'); }
+        setLoading(false);
+      };
+
+      useEffect(() => { if (authed) loadConfig(); }, [authed]);
+
+      const handleSave = async () => {
+        setSaving(true); setSaveError(''); setSaved(false);
+        try {
+          const res = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'updateConfig', authToken: token, ...draft }),
+            mode: 'no-cors',
+          });
+          // no-cors = opaque, assume success
+          setConfig({ ...draft }); setSaved(true);
+          setTimeout(() => setSaved(false), 3000);
+        } catch (e) { setSaveError('Save failed: ' + e.message); }
+        setSaving(false);
+      };
+
+      if (!authed) {
+        return (
+          <div className="bg-mesh min-h-screen flex items-center justify-center px-4 relative overflow-hidden">
+            <div className="orb orb-1" /><div className="orb orb-2" /><div className="orb orb-3" />
+            <div className="glass-card rounded-3xl w-full max-w-sm relative z-10 animate-slide-up p-8 space-y-6">
+              <div className="text-center space-y-2">
+                <div className="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>
+                </div>
+                <h1 className="text-xl font-bold text-white">Admin Access</h1>
+                <p className="text-sm text-indigo-200/50 font-light">Enter your auth token to manage class settings.</p>
+              </div>
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-indigo-200/80">Auth Token</label>
+                <input id="admin-token" type="password" value={token} onChange={e => setToken(e.target.value)} placeholder="Enter your token…" className="admin-input" onKeyDown={e => { if (e.key === 'Enter' && token.trim()) setAuthed(true); }} />
+              </div>
+              <button id="admin-login-btn" onClick={() => { if (token.trim()) setAuthed(true); }} disabled={!token.trim()} className={`w-full py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${token.trim() ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-400 hover:to-orange-500 hover:shadow-lg hover:shadow-amber-500/25 active:scale-[0.98]' : 'bg-white/[0.06] text-white/30 cursor-not-allowed'}`}>
+                Unlock Admin Panel
+              </button>
+            </div>
+          </div>
+        );
+      }
+
+      return (
+        <div className="bg-mesh min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+          <div className="orb orb-1" /><div className="orb orb-2" /><div className="orb orb-3" />
+          <div className="glass-card rounded-3xl w-full max-w-lg relative z-10 animate-slide-up">
+            {/* Header */}
+            <div className="px-8 pt-8 pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/25">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.324.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 011.37.49l1.296 2.247a1.125 1.125 0 01-.26 1.431l-1.003.827c-.293.24-.438.613-.431.992a6.759 6.759 0 010 .255c-.007.378.138.75.43.99l1.005.828c.424.35.534.954.26 1.43l-1.298 2.247a1.125 1.125 0 01-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.57 6.57 0 01-.22.128c-.331.183-.581.495-.644.869l-.213 1.28c-.09.543-.56.941-1.11.941h-2.594c-.55 0-1.02-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 01-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 01-1.369-.49l-1.297-2.247a1.125 1.125 0 01.26-1.431l1.004-.827c.292-.24.437-.613.43-.992a6.932 6.932 0 010-.255c.007-.378-.138-.75-.43-.99l-1.004-.828a1.125 1.125 0 01-.26-1.43l1.297-2.247a1.125 1.125 0 011.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.087.22-.128.332-.183.582-.495.644-.869l.214-1.281z" /><path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                  </div>
+                  <div><h1 className="text-xl font-bold text-white">Admin Panel</h1><p className="text-xs text-amber-300/60 font-light">Manage class configuration</p></div>
+                </div>
+                <a href="index.html" className="text-xs text-indigo-300/60 hover:text-indigo-200 transition-colors">← Back to form</a>
+              </div>
+              <p className="text-sm text-indigo-200/50 font-light">Changes save directly to the Config tab in your Google Sheet.</p>
+            </div>
+
+            {/* Body */}
+            <div className="px-8 py-6 space-y-5">
+              {loading && <div className="flex items-center justify-center gap-2 py-4 text-indigo-200/60 text-sm"><Spinner /> Loading config…</div>}
+              {loadError && <ErrorBanner message={loadError} />}
+              {saveError && <ErrorBanner message={saveError} />}
+
+              {saved && (
+                <div className="animate-fade-in flex items-center gap-2 p-3 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-sm">
+                  <svg className="w-5 h-5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" /></svg>
+                  Config saved successfully!
+                </div>
+              )}
+
+              {!loading && (
+                <>
+                  <div className="space-y-1.5">
+                    <label className="block text-sm font-medium text-indigo-200/80">Zoom Link</label>
+                    <input id="admin-zoom" value={draft.zoomLink} onChange={e => setDraft({ ...draft, zoomLink: e.target.value })} className="admin-input" placeholder="https://zoom.us/j/..." />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                      <label className="block text-sm font-medium text-indigo-200/80">Class Date</label>
+                      <input id="admin-date" value={draft.classDate} onChange={e => setDraft({ ...draft, classDate: e.target.value })} className="admin-input" placeholder="Saturday, March 7" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="block text-sm font-medium text-indigo-200/80">Class Time</label>
+                      <input id="admin-time" value={draft.classTime} onChange={e => setDraft({ ...draft, classTime: e.target.value })} className="admin-input" placeholder="9:00 AM MST" />
+                    </div>
+                  </div>
+
+                  {/* Live preview */}
+                  <div className="rounded-xl bg-white/[0.03] border border-white/[0.06] p-4 space-y-2">
+                    <p className="text-xs text-indigo-300/50 font-medium uppercase tracking-wider">Live Preview</p>
+                    <p className="text-sm text-white font-medium">{draft.classDate || '—'} · {draft.classTime || '—'}</p>
+                    <p className="text-xs text-indigo-300/70 truncate">{draft.zoomLink || '—'}</p>
+                  </div>
+
+                  <button id="admin-save-btn" onClick={handleSave} disabled={saving} className={`w-full py-3.5 rounded-xl text-sm font-semibold flex items-center justify-center gap-2.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-400/40 ${saving ? 'bg-amber-600/50 text-amber-200/60 cursor-not-allowed' : 'bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-400 hover:to-orange-500 hover:shadow-lg hover:shadow-amber-500/25 active:scale-[0.98]'}`}>
+                    {saving ? <><Spinner /> Saving…</> : (
+                      <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>Save Config</>
+                    )}
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="px-8 py-4 border-t border-white/[0.04] flex items-center justify-between">
+              <span className="text-[11px] text-white/20 font-light">Admin · writes to Config tab</span>
+              <span className="flex items-center gap-1.5 text-[11px] text-emerald-400/60 font-medium"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />Connected</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ══════════════════════════════════════════════
+    //  REGISTRATION FORM
+    // ══════════════════════════════════════════════
+    function RegistrationForm() {
+      const [config, setConfig] = useState(DEFAULT_CONFIG);
+      const [configLoading, setConfigLoading] = useState(true);
+      const [form, setForm] = useState({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], primaryGoal: '', confidence: '', codingBackground: '' });
+      const [errors, setErrors] = useState({});
+      const [isSubmitting, setIsSubmitting] = useState(false);
+      const [submitted, setSubmitted] = useState(false);
+      const [apiError, setApiError] = useState('');
+
+      useEffect(() => { fetchConfig().then(c => { setConfig(c); setConfigLoading(false); }); }, []);
+
+      const set = f => e => { setForm(p => ({ ...p, [f]: e.target.value })); if (errors[f]) setErrors(p => ({ ...p, [f]: '' })); if (apiError) setApiError(''); };
+      const setTools = t => { setForm(p => ({ ...p, aiTools: t })); if (errors.aiTools) setErrors(p => ({ ...p, aiTools: '' })); };
+
+      const validate = () => {
+        const e = {};
+        if (!form.fullName.trim()) e.fullName = 'Full name is required'; if (!form.email.trim()) e.email = 'Email is required';
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'Enter a valid email';
+        if (!form.company.trim()) e.company = 'Company / Organization is required'; if (!form.titleIndustry.trim()) e.titleIndustry = 'Title & Industry is required';
+        if (!form.aiTools.length) e.aiTools = 'Select at least one tool'; if (!form.primaryGoal) e.primaryGoal = 'Select your primary goal';
+        if (!form.confidence) e.confidence = 'Select your confidence level'; if (!form.codingBackground) e.codingBackground = 'Select your coding background';
+        return e;
+      };
+
+      const handleSubmit = async ev => {
+        ev.preventDefault(); const errs = validate(); if (Object.keys(errs).length) { setErrors(errs); return; } setErrors({}); setApiError(''); setIsSubmitting(true);
+        const payload = { authToken: "__public__", "Full Name": form.fullName.trim(), "Email Address": form.email.trim(), "Company / Organization": form.company.trim(), "Title & Industry": form.titleIndustry.trim(), "Which AI tools have you used?": form.aiTools.join(', '), "What is your primary goal?": form.primaryGoal, "How confident do you feel learning new tools?": form.confidence, "Coding background?": form.codingBackground, Source: SOURCE_TAG, timestamp: new Date().toISOString() };
+        try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }); setSubmitted(true); } catch (e) { setApiError('Something went wrong. Please try again.'); } finally { setIsSubmitting(false); }
+      };
+
+      const handleReset = () => { setForm({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], primaryGoal: '', confidence: '', codingBackground: '' }); setErrors({}); setApiError(''); setSubmitted(false); };
+
+      return (
+        <div className="bg-mesh min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+          <div className="orb orb-1" /><div className="orb orb-2" /><div className="orb orb-3" />
+          <div className="glass-card animate-pulse-glow rounded-3xl w-full max-w-xl relative z-10 animate-slide-up">
+            {/* Header */}
+            <div className="px-8 pt-8 pb-4 border-b border-white/[0.06]">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/25">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" /></svg>
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-white tracking-tight">AI Introductory Class</h1>
+                  {configLoading ? <p className="text-xs text-indigo-300/40 font-light">Loading class details…</p> : <p className="text-xs text-indigo-300/60 font-light">{config.classDate} · {config.classTime}</p>}
+                </div>
+              </div>
+              <p className="text-sm text-indigo-200/50 font-light leading-relaxed">Register below to reserve your spot. All fields are required.</p>
+            </div>
+
+            {/* Body */}
+            <div className="px-8 py-6">
+              {submitted ? <SuccessView onReset={handleReset} config={config} /> : (
+                <form onSubmit={handleSubmit} noValidate className="space-y-5">
+                  <ErrorBanner message={apiError} />
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <TextInput id="fullName" label="Full Name" value={form.fullName} onChange={set('fullName')} error={errors.fullName} placeholder="Jane Doe" />
+                    <TextInput id="email" label="Email Address" type="email" value={form.email} onChange={set('email')} error={errors.email} placeholder="jane@example.com" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <TextInput id="company" label="Company / Organization" value={form.company} onChange={set('company')} error={errors.company} placeholder="Acme Inc." />
+                    <TextInput id="titleIndustry" label="Title & Industry" value={form.titleIndustry} onChange={set('titleIndustry')} error={errors.titleIndustry} placeholder="Teacher / Education" />
+                  </div>
+                  <CheckboxGroup id="aiTools" label="Which AI tools have you used?" options={AI_TOOLS} selected={form.aiTools} onChange={setTools} error={errors.aiTools} />
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <SelectInput id="primaryGoal" label="Primary Goal" value={form.primaryGoal} onChange={set('primaryGoal')} error={errors.primaryGoal} options={PRIMARY_GOALS} placeholder="Select goal…" />
+                    <SelectInput id="confidence" label="Confidence Level" value={form.confidence} onChange={set('confidence')} error={errors.confidence} options={CONFIDENCE_LEVELS} placeholder="1 – 5" />
+                    <SelectInput id="codingBackground" label="Coding Background" value={form.codingBackground} onChange={set('codingBackground')} error={errors.codingBackground} options={CODING_BGS} placeholder="Select…" />
+                  </div>
+                  <button id="submit-btn" type="submit" disabled={isSubmitting} className={`w-full py-3.5 rounded-xl text-sm font-semibold tracking-wide flex items-center justify-center gap-2.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400/40 focus:ring-offset-2 focus:ring-offset-transparent ${isSubmitting ? 'bg-indigo-600/50 text-indigo-200/60 cursor-not-allowed' : 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:from-indigo-500 hover:to-violet-500 hover:shadow-lg hover:shadow-indigo-500/25 active:scale-[0.98]'}`}>
+                    {isSubmitting ? <><Spinner /> Submitting…</> : <><svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg>Register</>}
+                  </button>
+                </form>
+              )}
+            </div>
+
+            {/* Footer */}
+            <div className="px-8 py-4 border-t border-white/[0.04] flex items-center justify-between">
+              <span className="text-[11px] text-white/20 font-light">Secured submission</span>
+              <span className="flex items-center gap-1.5 text-[11px] text-emerald-400/60 font-medium"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400/80 animate-pulse" />System Active</span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ── App Router ──
+    function App() {
+      return isAdminMode() ? <AdminPanel /> : <RegistrationForm />;
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+
+</html>
