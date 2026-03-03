@@ -538,7 +538,15 @@
         let goalsList = form.primaryGoal.filter(g => g !== 'Other');
         if (form.primaryGoal.includes('Other') && form.primaryGoalOther.trim()) goalsList.push('Other: ' + form.primaryGoalOther.trim());
         const payload = { authToken: "__public__", "Full Name": form.fullName.trim(), "Email Address": form.email.trim(), "Company / Organization": form.company.trim(), "Title & Industry": form.titleIndustry.trim(), "Which AI tools have you used?": toolsList.join(', '), "What is your primary goal?": goalsList.join(', '), "How confident do you feel learning new tools?": form.confidence, "Coding background?": form.codingBackground, Source: SOURCE_TAG, timestamp: new Date().toISOString() };
-        try { await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) }); setSubmitted(true); } catch (e) { setApiError('Something went wrong. Please try again.'); } finally { setIsSubmitting(false); }
+        try {
+          const res = await fetch(SCRIPT_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+          const text = await res.text();
+          try {
+            const json = JSON.parse(text);
+            if (json.status === 'error') { setApiError(json.message || 'Registration failed.'); }
+            else { setSubmitted(true); }
+          } catch (_) { setSubmitted(true); }
+        } catch (e) { setApiError('Something went wrong. Please try again.'); } finally { setIsSubmitting(false); }
       };
 
       const handleReset = () => { setForm({ fullName: '', email: '', company: '', titleIndustry: '', aiTools: [], aiToolsOther: '', primaryGoal: [], primaryGoalOther: '', confidence: '', codingBackground: '' }); setErrors({}); setApiError(''); setSubmitted(false); };
